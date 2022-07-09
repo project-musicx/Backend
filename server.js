@@ -7,8 +7,8 @@ const PORT= process.env.PORT||3000
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 const scope= require("./utility/scope")
-const aboutMe= require("./shopifyApi/aboutMe")
-const playlistApi=require("./shopifyApi/playlist")
+const aboutMe= require("./spotifyApi/aboutMe")
+const playlistApi=require("./spotifyApi/playlist")
 const spotifyApi= new spotifyWebApi({
     clientId: process.env.CLIENT_ID,
     clientSecret:process.env.CLIENT_SECRET,
