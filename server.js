@@ -1,55 +1,68 @@
 
 const express= require("express")
 const app = express()
+const spotifyWebApi= require("spotify-web-api-node")
 require("dotenv").config();
 const PORT= process.env.PORT||3000
 const request= require("request")
 const querystring= require('node:querystring')
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
+const scope= require("./utility/scope")
+
+const spotifyApi= new spotifyWebApi({
+    clientId: process.env.CLIENT_ID,
+    clientSecret:process.env.CLIENT_SECRET,
+    redirectUri: process.env.REDRIECTURI
+})
 
 app.get("/login",(req,res)=>{
-    var scope = 'user-read-private user-read-email';
-    res.redirect('https://accounts.spotify.com/authorize?' +
-    querystring.stringify({
-      response_type: 'code',
-      client_id:process.env.CLIENT_ID,
-      scope: scope,
-      redirect_uri: process.env.REDRIECTURI,
-      state: "gjkktlnmjklmn"
-    }));
+    res.redirect(spotifyApi.createAuthorizeURL(scope))
 })
 app.get("/logged",(req,res)=>{
-    var code = req.query.code || null;
-    var state = req.query.state || null;
-    if (state === null) {
-      res.redirect('/#' +
-        querystring.stringify({
-          error: 'state_mismatch'
-        }));
-    } else {
-       let authOptions = {
-            url: 'https://accounts.spotify.com/api/token',
-            form: {
-              code: code,
-              redirect_uri: process.env.REDRIECTURI,
-              grant_type: 'authorization_code'
-            },
-            headers: {
-              'Authorization': 'Basic ' + (new Buffer.from(process.env.CLIENT_ID + ':' + process.env.CLIENT_SECRET).toString('base64'))
-            },
-            json: true
-          };
-          request.post(authOptions, function(error, response, body) {
-            if (!error && response.statusCode === 200) {
-                console.log(body)
-              var access_token = body.access_token;
-              res.send({
-                'access_token': access_token
-              });
-            }
-          });
-            }
+    const error = req.query.error;
+    const code = req.query.code;
+    const state = req.query.state;
+  
+    if (error) {
+      console.error('Callback Error:', error);
+      res.send(`Callback Error: ${error}`);
+      return;
+    }
+
+    spotifyApi
+    .authorizationCodeGrant(code)
+    .then(data => {
+      const access_token = data.body['access_token'];
+      const refresh_token = data.body['refresh_token'];
+      const expires_in = data.body['expires_in'];
+
+      spotifyApi.setAccessToken(access_token);
+      spotifyApi.setRefreshToken(refresh_token);
+
+      console.log('access_token:', access_token);
+      console.log('refresh_token:', refresh_token);
+
+      console.log(
+        `Sucessfully retreived access token. Expires in ${expires_in} s.`
+      );
+      res.send('Success! You can now close the window.');
+
+      setInterval(async () => {
+        const data = await spotifyApi.refreshAccessToken();
+        const access_token = data.body['access_token'];
+
+        console.log('The access token has been refreshed!');
+        console.log('access_token:', access_token);
+        spotifyApi.setAccessToken(access_token);
+      }, expires_in / 2 * 1000);
+    })
+    .catch(error => {
+      console.error('Error getting Tokens:', error);
+      res.send(`Error getting Tokens: ${error}`);
+    });
+
+
 });
 
 
