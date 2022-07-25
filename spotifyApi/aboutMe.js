@@ -1,9 +1,10 @@
 
 
+
+const spotifyConfig= require("../utility/config")
+
 async function  aboutMe(token) {
-const SpotifyWebApi = require('spotify-web-api-node');
-const spotifyApi = new SpotifyWebApi();
-spotifyApi.setAccessToken(token);
+ const spotifyApi =spotifyConfig(token)
 return new Promise((resolve, reject) => {
     (async () => {
         const me = await spotifyApi.getMe();

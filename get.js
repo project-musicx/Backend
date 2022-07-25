@@ -20,8 +20,6 @@ function getMyData() {
 //GET MY PLAYLISTS
 async function getUserPlaylists(userName) {
   const data = await spotifyApi.getUserPlaylists(userName)
-
-  console.log("---------------+++++++++++++++++++++++++")
   let playlists = []
 
   for (let playlist of data.body.items) {
