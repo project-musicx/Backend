@@ -10,8 +10,8 @@ require('../configs/passport-setup')
 
 
 //auth login
-authRouter.get('/login', (req, res) => {
-    res.send('login page')
+authRouter.post('/login', (req, res) => {
+
 })
 
 //auth logout
@@ -21,9 +21,8 @@ authRouter.get('/logout', (req, res) => {
 })
 
 //auth with google
-authRouter.get('/google',passport.authenticate('google', 
-{scope:['profile']}
-))
+authRouter.get('/google',passport.authenticate('google', { scope: ['profile'] }));
+
 
 //callback route for google to redirect to
 //once we are authorized we get a code in the query params with key = code
@@ -39,6 +38,7 @@ authRouter.get('/google',passport.authenticate('google',
 authRouter.get('/google/redirect', passport.authenticate('google'), (req, res)=>{
     res.send('you reached the call back uri')
     console.log(`Code is ${req.query.code}`)
+    res.send("succes")
 })
 
 module.exports = authRouter

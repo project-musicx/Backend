@@ -3,18 +3,17 @@ const express = require("express")
 const app = express()
 const spotifyWebApi = require("spotify-web-api-node")
 require("dotenv").config();
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT || 5000
 const authRouter = require('./routes/google-auth')
 let Token=""
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
-
-app.use('/auth', authRouter)
+app.use('/api/auth', authRouter)
 
 const scope = require("./utility/scope")
-const aboutMe = require("./shopifyApi/aboutMe")
-const playlistApi = require("./shopifyApi/playlist")
+const aboutMe = require("./spotifyApi/aboutMe.js")
+const playlistApi = require("./spotifyApi/playlist")
 const spotifyApi = new spotifyWebApi({
   clientId: process.env.CLIENT_ID,
   clientSecret: process.env.CLIENT_SECRET,

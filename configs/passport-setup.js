@@ -11,20 +11,11 @@ const User = require('../models/User')
 
 passport.use(
     new GoogleStrategy({
-        callbackURL: '/auth/google/redirect',
+        callbackURL: '/api/auth/google/redirect',
         clientID: keys.google.clientID,
         clientSecret: keys.google.clientSecret
     },
     (accessToken, refreshToken, profile, done)=>{
-        
-        //passport call back function
-        //callback takes in a few parameters
-
-        //accessToken - 'used to fetch user data'
-        //refreshToken - 'refreshes the access token'
-        //profile - the response we want 
-        //done - we call this when done with call back funciton
-
         console.log('call back function fired')
         console.log(`access token is ${accessToken}`)
         console.log(profile._json )

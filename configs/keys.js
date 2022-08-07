@@ -1,7 +1,7 @@
 module.exports = {
     google:{
-        clientID : "583734270615-u30doa01grkc6jc50ji54apap30gp879.apps.googleusercontent.com",
-        clientSecret: "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",
+        clientID : "38238582225-hje5o3llosp9rdeqhr09v57u3jhdpjqq.apps.googleusercontent.com",
+        clientSecret: "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",
     },
     mongodb:{
         dburi:"mongodb+srv://atokaidoo6:G05pf2yRH9BFCnqQ@cluster0.fqtau.mongodb.net/?retryWrites=true&w=majority"

@@ -2,7 +2,13 @@ const mongoose = require('mongoose')
 
 const userSchema = new mongoose.Schema({
     username: String,
-    googleId: String
+    profileUrl:String,
+    email:String,
+    googleId: String,
+    connectedAccounts:[{
+        accountType:String,
+        token:String
+    }]
 })
 
 
