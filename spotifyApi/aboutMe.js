@@ -1,17 +1,13 @@
-
-
+const spotifyConfig = require("../utility/config");
 async function aboutMe(token) {
-  const SpotifyWebApi = require('spotify-web-api-node');
-  const spotifyApi = new SpotifyWebApi();
-  spotifyApi.setAccessToken(token);
+  const spotifyApi = spotifyConfig(token);
   return new Promise((resolve, reject) => {
     (async () => {
       const me = await spotifyApi.getMe();
-      resolve(me.body)
-    })().catch(e => {
+      resolve(me.body);
+    })().catch((e) => {
       reject(e);
     });
-  })
-
+  });
 }
-module.exports = aboutMe
+module.exports = aboutMe;
