@@ -1,11 +1,10 @@
-const spotifyConfig= require("../utility/config")
+const spotifyConfig = require("../utility/config");
 
-async function getUserPlaylists(token , userName) {
-    const spotifyApi =spotifyConfig(token)
-    const data = await spotifyApi.getUserPlaylists(userName)
-    let playlists = []
-    return data.body.items
-  }
+async function getUserPlaylists(token, userName) {
+  const spotifyApi = spotifyConfig(token);
+  const data = await spotifyApi.getUserPlaylists(userName);
+  let playlists = [];
+  return data.body.items;
+}
 
-
-  module.exports=getUserPlaylists
+module.exports = getUserPlaylists;
