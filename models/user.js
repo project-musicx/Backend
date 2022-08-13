@@ -9,6 +9,9 @@ const userSchema = new mongoose.Schema({
     {
       accountType: String,
       token: String,
+      refreshToken: String,
+      id: String,
+      expiresIn: Number,
     },
   ],
 });
