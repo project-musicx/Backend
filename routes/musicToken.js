@@ -19,7 +19,7 @@ router.post("/save-my-token", async (req, res) => {
   spotifyApi
     .authorizationCodeGrant(code)
     .then(async (data) => {
-    createMyPlayListFromSpotify(data.body.access_token,req.body.id,req.session.user.userid)
+      createMyPlayListFromSpotify(data.body.access_token,req.body.id,req.session.user.userid)
       let payload = {};
       payload = req.body;
        payload.token = data.body.access_token,
@@ -31,12 +31,14 @@ router.post("/save-my-token", async (req, res) => {
         { _id: req.session.user.userid },
         {
           $push: {
-     // connectedAccounts: payload,
+     connectedAccounts: payload,
           },
         }
       ).then((result) => {
         res.send({ succes: true });
-      });
+      }).catch((err) => {
+        console.log(err);
+      })
     })
     .catch((err) => {
       console.log(err);
@@ -59,9 +61,10 @@ async function createMyPlayListFromSpotify(token, id, userId) {
       description: playlist.description,
       images: playlist.images,
     };
-    PlaylistModel.create(playListModelPayLoad).then((result) => {
-      console.log("finish");
-      updateOrCreateMusicTracks(token,result.playListId)
+     PlaylistModel.create(playListModelPayLoad).then((result) => {
+       updateOrCreateMusicTracks(token,result.playListId)
+     }).catch((err) => {
+      console.log("err")
     });
   });
 }

@@ -1,10 +1,41 @@
 const getPlaylistTrack = require("./getPlaylistTrack");
 const Track= require("../models/track")
 async function updateOrCreateMusicTracks(token, id) {
-console.log(id)
+  console.log("gi")
   const getThisPlaylistTracks = await getPlaylistTrack(token, id);
-    console.log(getThisPlaylistTracks);
-    
+  if(getThisPlaylistTracks.length){
+    getThisPlaylistTracks.forEach( async (track) => {
+        let trackModel={
+            tackName: track.name,
+            createrId: "",
+            platform: "spotify",
+            duration_ms:track.duration_ms,
+            album:{
+                  album_type: track.album.album_type,
+                  href: track.album.href,
+                  id:  track.album.id,
+                  images: track.album.images,
+                  name: track.album.name,
+                  release_date: track.album.release_date,
+                  total_tracks: track.album.total_tracks,
+                  type: track.album.type,
+                  uri: track.album.uri
+            }, 
+            href:track.href,
+            songId:track.id,
+            popularity:track.popularity,
+            preview_url:track.preview_url,
+            type:track.type,
+            uri:track.uri,
+
+        }
+            Track.create(trackModel).then((result)=>{
+              console.log(result)
+           }).catch((err) => {
+          console.log("err")
+        });
+    })
+  }
   }
 
 //   album: {

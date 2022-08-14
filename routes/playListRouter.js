@@ -9,7 +9,7 @@ router.get("/my-playlist", (req, res) => {
     (myplaylist) => {
       User.findOne({ userId: req.session.user.userid }).then((user) => {
         myplaylist.forEach((item) => {
-          updateOrCreateMusicTracks(user.connectedAccounts[0].token, item.id);
+        ///  updateOrCreateMusicTracks(user.connectedAccounts[0].token, item.id);
         });
         myplaylist.forEach((item) => {});
         res.send(myplaylist);
@@ -17,6 +17,15 @@ router.get("/my-playlist", (req, res) => {
     }
   );
 });
+
+router.get("/my-playlist/:id", (req, res) =>{
+  PlaylistModel.findOne({ _id: req.params.id }).then((result)=>{
+res.send(result)
+  }).catch((err) =>{
+    console.log(err)
+  })
+})
+   
 
 async function updateOrCreateMusicTracks(token, id) {
   const getThisPlaylistTracks = await getPlaylistTrack(token, id);
