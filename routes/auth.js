@@ -4,13 +4,13 @@ const User = require("../models/user");
 const authRouter = express.Router();
 
 authRouter.post("/login", (req, res) => {
-  User.findOne({email: req.body.email}).then((result)=>{
-    if(result){
+  User.findOne({ email: req.body.email }).then((result) => {
+    if (result) {
       req.session.user = {
         userid: result._id.toString(),
       };
       res.send({ succes: true });
-    }else{
+    } else {
       User.create({
         username: req.body.name,
         profileUrl: req.body.picture,
@@ -24,8 +24,7 @@ authRouter.post("/login", (req, res) => {
         res.send({ succes: true });
       });
     }
-  })
-
+  });
 });
 
 authRouter.post("/check-login", (req, res) => {

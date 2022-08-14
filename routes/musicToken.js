@@ -3,26 +3,29 @@ const User = require("../models/user");
 const playlistApi = require("../spotifyApi/playlist");
 const aboutMe = require("../spotifyApi/aboutMe");
 const PlaylistModel = require("../models/playlist");
-const updateOrCreateMusicTracks = require("../spotifyApi/createTrack")
+const updateOrCreateMusicTracks = require("../spotifyApi/createTrack");
 const getPlaylistTrack = require("../spotifyApi/getPlaylistTrack");
 const router = express.Router();
 const spotifyWebApi = require("spotify-web-api-node");
 
-
 router.post("/save-my-token", async (req, res) => {
-  const code = req.body.token
+  const code = req.body.token;
   const spotifyApi = new spotifyWebApi({
     clientId: process.env.CLIENT_ID,
     clientSecret: process.env.CLIENT_SECRET,
     redirectUri: process.env.REDRIECTURI,
- });
+  });
   spotifyApi
     .authorizationCodeGrant(code)
     .then(async (data) => {
-      createMyPlayListFromSpotify(data.body.access_token,req.body.id,req.session.user.userid)
+      createMyPlayListFromSpotify(
+        data.body.access_token,
+        req.body.id,
+        req.session.user.userid
+      );
       let payload = {};
       payload = req.body;
-       payload.token = data.body.access_token,
+      (payload.token = data.body.access_token),
         (payload.refreshToken = data.body.refresh_token);
       payload.expiresIn = data.body.expires_in;
 
@@ -31,18 +34,20 @@ router.post("/save-my-token", async (req, res) => {
         { _id: req.session.user.userid },
         {
           $push: {
-     connectedAccounts: payload,
+            connectedAccounts: payload,
           },
         }
-      ).then((result) => {
-        res.send({ succes: true });
-      }).catch((err) => {
-        console.log(err);
-      })
+      )
+        .then((result) => {
+          res.send({ succes: true });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     })
     .catch((err) => {
       console.log(err);
-  res.sendStatus(400);
+      res.sendStatus(400);
     });
 });
 
@@ -52,7 +57,7 @@ async function createMyPlayListFromSpotify(token, id, userId) {
     let playListModelPayLoad = {
       playlistName: playlist.name,
       createrId: userId,
-      playListId:playlist.id,
+      playListId: playlist.id,
       numberOfsounds: playlist.tracks.total,
       isPrivate: true,
       platform: "spotify",
@@ -61,11 +66,13 @@ async function createMyPlayListFromSpotify(token, id, userId) {
       description: playlist.description,
       images: playlist.images,
     };
-     PlaylistModel.create(playListModelPayLoad).then((result) => {
-       updateOrCreateMusicTracks(token,result.playListId)
-     }).catch((err) => {
-      console.log("err")
-    });
+    PlaylistModel.create(playListModelPayLoad)
+      .then((result) => {
+        updateOrCreateMusicTracks(token, result.playListId);
+      })
+      .catch((err) => {
+        console.log("err");
+      });
   });
 }
 
@@ -73,7 +80,6 @@ async function getMySpotifyProfileId(token) {
   const aboutTheUser = await aboutMe(token);
   return aboutTheUser.id;
 }
-
 
 module.exports = router;
 

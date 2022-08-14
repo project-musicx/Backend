@@ -38,6 +38,6 @@ function update(object, accessToken, expiresIn) {
 }
 
 function refreshUserSpotifyTokeTimer() {
- //setInterval(refresh,100000)
+  //setInterval(refresh,100000)
 }
 module.exports = refreshUserSpotifyTokeTimer;

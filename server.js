@@ -1,21 +1,20 @@
-
 require("dotenv").config();
 const express = require("express");
 const app = express();
 const expressSession = require("express-session");
-const cors= require("cors");
-const refreshUserSpotifyTokeTimer = require("./spotifyApi/refreshSpotifyToken")
-refreshUserSpotifyTokeTimer()
+const cors = require("cors");
+const refreshUserSpotifyTokeTimer = require("./spotifyApi/refreshSpotifyToken");
+refreshUserSpotifyTokeTimer();
 const db = process.env.DB;
 const mongoose = require("mongoose");
 mongoose.connect(db, { useNewUrlParser: true, useUnifiedTopology: true });
 const MongoStore = require("connect-mongo");
 const spotifyWebApi = require("spotify-web-api-node");
 const PORT = process.env.PORT || 4000;
-app.use(cors())
+app.use(cors());
 const authRouter = require("./routes/auth");
-const tokenRouter= require("./routes/musicToken");
-const playListRouter= require("./routes/playListRouter");
+const tokenRouter = require("./routes/musicToken");
+const playListRouter = require("./routes/playListRouter");
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -40,7 +39,5 @@ app.use(
 app.use("/api/auth", authRouter);
 app.use("/api", tokenRouter);
 app.use("/api", playListRouter);
-
-
 
 app.listen(PORT);
