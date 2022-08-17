@@ -51,7 +51,7 @@ router.post("/save-my-token", async (req, res) => {
 });
 
 async function createMyPlayListFromSpotify(token, id, userId) {
-  console.log(id);
+  console.log(id, "the iddd");
   const myPlaylist = await playlistApi(token, id);
   myPlaylist.forEach((playlist) => {
     let playListModelPayLoad = {

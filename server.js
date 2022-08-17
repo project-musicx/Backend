@@ -3,8 +3,6 @@ const express = require("express");
 const app = express();
 const expressSession = require("express-session");
 const cors = require("cors");
-const refreshUserSpotifyTokeTimer = require("./spotifyApi/refreshSpotifyToken");
-refreshUserSpotifyTokeTimer();
 const db = process.env.DB;
 const mongoose = require("mongoose");
 mongoose.connect(db, { useNewUrlParser: true, useUnifiedTopology: true });
