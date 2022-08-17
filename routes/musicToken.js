@@ -3,13 +3,12 @@ const User = require("../models/user");
 const playlistApi = require("../spotifyApi/playlist");
 const aboutMe = require("../spotifyApi/aboutMe");
 const PlaylistModel = require("../models/playlist");
-const updateOrCreateMusicTracks = require("../spotifyApi/createTrack");
 const getPlaylistTrack = require("../spotifyApi/getPlaylistTrack");
 const router = express.Router();
 const spotifyWebApi = require("spotify-web-api-node");
 
 router.post("/save-my-token", async (req, res) => {
-  const code = req.body.token;
+  const code = req.body.code;
   const spotifyApi = new spotifyWebApi({
     clientId: process.env.CLIENT_ID,
     clientSecret: process.env.CLIENT_SECRET,
@@ -52,6 +51,7 @@ router.post("/save-my-token", async (req, res) => {
 });
 
 async function createMyPlayListFromSpotify(token, id, userId) {
+  console.log(id);
   const myPlaylist = await playlistApi(token, id);
   myPlaylist.forEach((playlist) => {
     let playListModelPayLoad = {
@@ -67,9 +67,7 @@ async function createMyPlayListFromSpotify(token, id, userId) {
       images: playlist.images,
     };
     PlaylistModel.create(playListModelPayLoad)
-      .then((result) => {
-        updateOrCreateMusicTracks(token, result.playListId);
-      })
+      .then((result) => {})
       .catch((err) => {
         console.log("err");
       });
