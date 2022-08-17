@@ -44,8 +44,9 @@ async function getMyPlayList(token, id, userId) {
   } catch (err) {
     if (err.body.error.message === "The access token expired") {
       let newToken = await refreshToken(userId);
-      console.log("done", newToken);
-      getMyPlayList(newToken, id, userId);
+      console.log("done");
+   const  getThisPlaylistTrack=  getMyPlayList(newToken, id, userId);
+   return getThisPlaylistTrack
     }
   }
 }
