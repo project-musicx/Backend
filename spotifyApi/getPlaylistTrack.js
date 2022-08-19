@@ -3,8 +3,8 @@ const spotifyConfig = require("../utility/config");
 async function getPlaylistTrack(token, playlistId) {
   const spotifyApi = spotifyConfig(token);
   const data = await spotifyApi.getPlaylistTracks(playlistId, {
-    offset: 1,
-    limit: 20,
+    offset: 0,
+    limit: 100,
     fields: "items",
   });
   let tracks = [];

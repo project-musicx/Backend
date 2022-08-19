@@ -40,13 +40,14 @@ router.get("/my-playlist-track/:id/:token", async (req, res) => {
 async function getMyPlayList(token, id, userId) {
   try {
     const getThisPlaylistTrack = await getPlaylistTrack(token, id);
+
     return getThisPlaylistTrack;
   } catch (err) {
     if (err.body.error.message === "The access token expired") {
       let newToken = await refreshToken(userId);
-      console.log("done");
-   const  getThisPlaylistTrack=  getMyPlayList(newToken, id, userId);
-   return getThisPlaylistTrack
+      console.log("done", err);
+      const getThisPlaylistTrack = getMyPlayList(newToken, id, userId);
+      return getThisPlaylistTrack;
     }
   }
 }
