@@ -17,9 +17,10 @@ router.post("/save-my-token", async (req, res) => {
   spotifyApi
     .authorizationCodeGrant(code)
     .then(async (data) => {
+      let id = await getMySpotifyProfileId(data.body.access_token);
       createMyPlayListFromSpotify(
         data.body.access_token,
-        req.body.id,
+        id,
         req.session.user.userid
       );
       let payload = {};
@@ -27,8 +28,6 @@ router.post("/save-my-token", async (req, res) => {
       (payload.token = data.body.access_token),
         (payload.refreshToken = data.body.refresh_token);
       payload.expiresIn = data.body.expires_in;
-
-      let id = await getMySpotifyProfileId(payload.token);
       User.findOneAndUpdate(
         { _id: req.session.user.userid },
         {
@@ -51,7 +50,6 @@ router.post("/save-my-token", async (req, res) => {
 });
 
 async function createMyPlayListFromSpotify(token, id, userId) {
-  console.log(id, "the iddd");
   const myPlaylist = await playlistApi(token, id);
   myPlaylist.forEach((playlist) => {
     let playListModelPayLoad = {
