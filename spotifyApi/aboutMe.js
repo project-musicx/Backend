@@ -5,8 +5,8 @@ async function aboutMe(token) {
     (async () => {
       const me = await spotifyApi.getMe();
       resolve(me.body);
-    })().catch((e) => {
-      reject(e);
+    })().catch((err) => {
+      reject(err);
     });
   });
 }

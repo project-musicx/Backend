@@ -78,34 +78,3 @@ async function getMySpotifyProfileId(token) {
 }
 
 module.exports = router;
-
-// {
-//   collaborative: false,
-//   description: 'Song descriptions help the artist connect with listeners and fans and evoke emotions, memories, senses, and even actions – such as someone deciding to promote your song themselves on their socials because of what you wrote about it or for other bloggers to pick up and write about you because they ha',
-//   external_urls: {
-//     spotify: 'https://open.spotify.com/playlist/2N0jKJ1pxqg3MSCMpP5jPv'
-//   },
-//   href: 'https://api.spotify.com/v1/playlists/2N0jKJ1pxqg3MSCMpP5jPv',
-//   id: '2N0jKJ1pxqg3MSCMpP5jPv',
-//   images: [],
-//   name: 'Dance Music',
-//   owner: {
-//     display_name: 'Kenneth',
-//     external_urls: {
-//       spotify: 'https://open.spotify.com/user/przeq4p2olryi6ympb8b3x9gf'
-//     },
-//     href: 'https://api.spotify.com/v1/users/przeq4p2olryi6ympb8b3x9gf',
-//     id: 'przeq4p2olryi6ympb8b3x9gf',
-//     type: 'user',
-//     uri: 'spotify:user:przeq4p2olryi6ympb8b3x9gf'
-//   },
-//   primary_color: null,
-//   public: true,
-//   snapshot_id: 'Miw1OGZhYzNmYzUwM2Y5ZTEyYWE3YzM0MDcxMDE5ZmZlZjRkM2E1NTY1',
-//   tracks: {
-//     href: 'https://api.spotify.com/v1/playlists/2N0jKJ1pxqg3MSCMpP5jPv/tracks',
-//     total: 0
-//   },
-//   type: 'playlist',
-//   uri: 'spotify:playlist:2N0jKJ1pxqg3MSCMpP5jPv'
-// }
