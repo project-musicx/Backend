@@ -10,7 +10,7 @@ const userSchema = new mongoose.Schema({
   createrId: String,
   numberOfsounds: Number,
   isPrivate: Boolean,
-  playListId: { type: String, unique: true, required: true },
+  playlistId: { type: String, unique: true, required: true },
   platform: String,
   collaborative: Boolean,
   playListUrl: String,

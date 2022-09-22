@@ -1,10 +1,10 @@
 const spotifyWebApi = require("spotify-web-api-node");
 const spotifyConfig = require("../utility/config");
-function addTracksToPlaylist(token, playListId, trackUri) {
+function addTracksToPlaylist(token, playlistId, trackUri) {
   return new Promise(function (resolve, reject) {
     const spotifyApi = spotifyConfig(token);
     spotifyApi
-      .addTracksToPlaylist(playListId, [trackUri], {
+      .addTracksToPlaylist(playlistId, [trackUri], {
         position: 0,
       })
       .then(function (data) {

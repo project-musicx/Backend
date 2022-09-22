@@ -18,11 +18,6 @@ router.post("/save-my-token", async (req, res) => {
     .authorizationCodeGrant(code)
     .then(async (data) => {
       let id = await getMySpotifyProfileId(data.body.access_token);
-      createMyPlayListFromSpotify(
-        data.body.access_token,
-        id,
-        req.session.user.userid
-      );
       let payload = {};
       payload = req.body;
       (payload.token = data.body.access_token),
@@ -55,7 +50,7 @@ async function createMyPlayListFromSpotify(token, id, userId) {
     let playListModelPayLoad = {
       playlistName: playlist.name,
       createrId: userId,
-      playListId: playlist.id,
+      playlistId: playlist.id,
       numberOfsounds: playlist.tracks.total,
       isPrivate: true,
       platform: "spotify",
@@ -71,7 +66,6 @@ async function createMyPlayListFromSpotify(token, id, userId) {
       });
   });
 }
-
 async function getMySpotifyProfileId(token) {
   const aboutTheUser = await aboutMe(token);
   return aboutTheUser.id;

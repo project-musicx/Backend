@@ -11,7 +11,8 @@ const spotifyWebApi = require("spotify-web-api-node");
 const PORT = process.env.PORT || 4000;
 app.use(cors());
 const authRouter = require("./routes/auth");
-const tokenRouter = require("./routes/musicToken");
+const SpotifymusicToken = require("./routes/SpotifymusicToken");
+const AppleMusicToken = require("./routes/AppleMusicToken");
 const playListRouter = require("./routes/playListRouter");
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -35,7 +36,8 @@ app.use(
   })
 );
 app.use("/api/auth", authRouter);
-app.use("/api", tokenRouter);
+app.use("/api", SpotifymusicToken);
+app.use("/api", AppleMusicToken);
 app.use("/api", playListRouter);
 
 app.listen(PORT);
