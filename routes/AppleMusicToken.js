@@ -25,7 +25,7 @@ router.post("/saveAppleMusicToken", (req, res) => {
   let payload = {};
   payload = req.body;
   User.findOneAndUpdate(
-    { _id: req.session.user.userid },
+    { _id: req.session.user.userId },
     {
       $push: {
         connectedAccounts: payload,

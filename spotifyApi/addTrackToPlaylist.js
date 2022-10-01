@@ -1,4 +1,3 @@
-const spotifyWebApi = require("spotify-web-api-node");
 const spotifyConfig = require("../utility/config");
 function addTracksToPlaylist(token, playlistId, trackUri) {
   return new Promise(function (resolve, reject) {

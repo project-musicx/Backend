@@ -7,7 +7,7 @@ authRouter.post("/login", (req, res) => {
   User.findOne({ email: req.body.email }).then((result) => {
     if (result) {
       req.session.user = {
-        userid: result._id.toString(),
+        userId: result._id.toString(),
       };
       res.send({ succes: true });
     } else {
@@ -17,9 +17,10 @@ authRouter.post("/login", (req, res) => {
         email: req.body.email,
         googleId: req.body.credential,
         connectedAccounts: [],
+        musicsyncspace:false
       }).then((result) => {
         req.session.user = {
-          userid: result._id.toString(),
+          userId: result._id.toString(),
         };
         res.send({ succes: true });
       });
@@ -29,7 +30,7 @@ authRouter.post("/login", (req, res) => {
 
 authRouter.post("/check-login", (req, res) => {
   if (req.session.user) {
-    User.findOne({ userid: req.session.user.userid })
+    User.findOne({ userId: req.session.user.userId })
       .then((result) => {
         if (result) {
           res.send({ payload: result, succes: true });
