@@ -3,13 +3,9 @@ const User = require("../models/user");
 const router = express.Router();
 const spotifyWebApi = require("spotify-web-api-node");
 
-function refresh(userId) {
+function refresh(email) {
   return new Promise((resolve, reject) => {
-    console.log(
-      userId,
-      "-------------------------------------------------------------------------------------------"
-    );
-    User.findOne({ _id: userId }).then((user) => {
+    User.findOne({ email: email }).then((user) => {
       console.log(user);
       let spotify = user.connectedAccounts.find(
         (account) => account.accountType === "spotify"

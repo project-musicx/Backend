@@ -24,7 +24,7 @@ router.post("/save-my-token", async (req, res) => {
         (payload.refreshToken = data.body.refresh_token);
       payload.expiresIn = data.body.expires_in;
       User.findOneAndUpdate(
-        { _id: req.session.user.userId },
+        { email: req.session.user.email },
         {
           $push: {
             connectedAccounts: payload,

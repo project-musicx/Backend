@@ -6,7 +6,7 @@ const spotifyWebApi = require("spotify-web-api-node");
 
 router.post("/transition-musicsyncspace", async (req, res) => {
   User.findOneAndUpdate(
-    { _id: req.session.user.userId },
+    { email: req.session.user.email },
     { musicsyncspace: req.body.musicsyncspace }
   ).then((result) => {
     res.send({ succes: true });

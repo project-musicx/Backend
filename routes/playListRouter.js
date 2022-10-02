@@ -7,7 +7,8 @@ const refreshToken = require("../spotifyApi/refreshSpotifyToken");
 const router = express.Router();
 const getPlaylistTrack = require("../spotifyApi/getPlaylistTrack");
 router.get("/my-playlist", (req, res) => {
-  User.findOne({ userId: req.session.user.userId }).then(async (user) => {
+  console.log(req.session.user.email);
+  User.findOne({ email: req.session.user.email }).then(async (user) => {
     if (user) {
       let spotify = user.connectedAccounts.find(
         (account) => account.accountType === "spotify"
@@ -18,7 +19,7 @@ router.get("/my-playlist", (req, res) => {
         let modifyData = myPlaylist.map((playlist) => {
           return {
             playlistName: playlist.name,
-            createrId: req.session.user.userId,
+            createrId: req.session.user.email,
             id: playlist.id,
             numberOfsounds: playlist.tracks.total,
             isPrivate: true,
@@ -32,7 +33,7 @@ router.get("/my-playlist", (req, res) => {
         res.send(modifyData);
       } catch (err) {
         if (err.body.error.message === "The access token expired") {
-          refreshToken(req.session.user.userId);
+          refreshToken(req.session.user.email);
         }
         console.log(err);
       }
@@ -57,7 +58,7 @@ router.get("/my-playlist-track/:id/:token", async (req, res) => {
     const getThisPlaylistTrack = await getMyPlayList(
       req.params.token,
       req.params.id,
-      req.session.user.userId
+      req.session.user.email
     );
     res.send(getThisPlaylistTrack);
   } catch (err) {
@@ -76,7 +77,7 @@ router.get("/stress-test", (req, res) => {
 });
 
 router.get("/refresh-token", async (req, res) => {
-  let newToken = await refreshToken(req.session.user.userId);
+  let newToken = await refreshToken(req.session.user.email);
   res.send(newToken);
 });
 router.post("/add-track-to-spotify-playlist", async (req, res) => {
@@ -86,14 +87,14 @@ router.post("/add-track-to-spotify-playlist", async (req, res) => {
 });
 
 router.post("/edit-playlist", (req, res) => {});
-async function getMyPlayList(token, id, userId) {
+async function getMyPlayList(token, id, email) {
   try {
     const getThisPlaylistTrack = await getPlaylistTrack(token, id);
     return getThisPlaylistTrack;
   } catch (err) {
     if (err.body.error.message === "The access token expired") {
-      let newToken = await refreshToken(userId);
-      const getThisPlaylistTrack = getMyPlayList(newToken, id, userId);
+      let newToken = await refreshToken(email);
+      const getThisPlaylistTrack = getMyPlayList(newToken, id, email);
       return getThisPlaylistTrack;
     }
   }

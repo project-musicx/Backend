@@ -4,10 +4,12 @@ const User = require("../models/user");
 const authRouter = express.Router();
 
 authRouter.post("/login", (req, res) => {
+  if (req.session.user) req.session.destroy();
   User.findOne({ email: req.body.email }).then((result) => {
     if (result) {
       req.session.user = {
         userId: result._id.toString(),
+        email: result.email,
       };
       res.send({ succes: true });
     } else {
@@ -21,6 +23,7 @@ authRouter.post("/login", (req, res) => {
       }).then((result) => {
         req.session.user = {
           userId: result._id.toString(),
+          email: result.email,
         };
         res.send({ succes: true });
       });
@@ -28,9 +31,17 @@ authRouter.post("/login", (req, res) => {
   });
 });
 
+authRouter.post("/logout", (req, res) => {
+  if (req.session.user) {
+    req.session.destroy();
+    res.send(JSON.stringify("Login"));
+  } else {
+    res.send(JSON.stringify("You are not Login"));
+  }
+});
 authRouter.post("/check-login", (req, res) => {
   if (req.session.user) {
-    User.findOne({ userId: req.session.user.userId })
+    User.findOne({ email: req.session.user.email })
       .then((result) => {
         if (result) {
           res.send({ payload: result, succes: true });
