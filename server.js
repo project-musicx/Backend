@@ -14,6 +14,7 @@ const authRouter = require("./routes/auth");
 const SpotifymusicToken = require("./routes/SpotifymusicToken");
 const AppleMusicToken = require("./routes/AppleMusicToken");
 const playListRouter = require("./routes/playListRouter");
+const MusicSyncSpace = require("./routes/musicSpaceRoute");
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -39,5 +40,6 @@ app.use("/api/auth", authRouter);
 app.use("/api", SpotifymusicToken);
 app.use("/api", AppleMusicToken);
 app.use("/api", playListRouter);
+app.use("/api", MusicSyncSpace);
 
 app.listen(PORT);

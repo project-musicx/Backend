@@ -14,7 +14,7 @@ const userSchema = new mongoose.Schema({
       expiresIn: Number,
     },
   ],
-  musicsyncspace:Boolean
+  musicsyncspace: Boolean,
 });
 
 const User = mongoose.model("authUsers", userSchema);

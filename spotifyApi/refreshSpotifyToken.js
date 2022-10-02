@@ -5,13 +5,16 @@ const spotifyWebApi = require("spotify-web-api-node");
 
 function refresh(userId) {
   return new Promise((resolve, reject) => {
-    console.log()
+    console.log(
+      userId,
+      "-------------------------------------------------------------------------------------------"
+    );
     User.findOne({ _id: userId }).then((user) => {
-      console.log(user)
+      console.log(user);
       let spotify = user.connectedAccounts.find(
         (account) => account.accountType === "spotify"
       );
-      const refreshToken = spotify.refreshToken;
+      const refreshToken = spotify.token;
       const spotifyApi = new spotifyWebApi({
         redirectUri: process.env.REDIRECT_URI,
         clientId: process.env.CLIENT_ID,

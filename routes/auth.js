@@ -17,7 +17,7 @@ authRouter.post("/login", (req, res) => {
         email: req.body.email,
         googleId: req.body.credential,
         connectedAccounts: [],
-        musicsyncspace:false
+        musicsyncspace: false,
       }).then((result) => {
         req.session.user = {
           userId: result._id.toString(),
