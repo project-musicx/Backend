@@ -10,7 +10,7 @@ function refresh(email) {
       let spotify = user.connectedAccounts.find(
         (account) => account.accountType === "spotify"
       );
-      const refreshToken = spotify.token;
+      const refreshToken = spotify.refreshToken;
       const spotifyApi = new spotifyWebApi({
         redirectUri: process.env.REDIRECT_URI,
         clientId: process.env.CLIENT_ID,

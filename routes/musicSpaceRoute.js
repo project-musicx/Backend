@@ -13,4 +13,12 @@ router.post("/transition-musicsyncspace", async (req, res) => {
   });
 });
 
+router.get("/connect-to-musicsyncspace/:id", async (req, res) => {
+  User.findOne({ _id: req.params.id })
+    .then((result) => {
+      res.send({ musicsyncspace: result.musicsyncspace });
+    })
+    .catch((err) => [res.error(err)]);
+});
+
 module.exports = router;
