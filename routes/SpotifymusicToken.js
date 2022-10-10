@@ -34,9 +34,7 @@ router.post("/save-my-token", async (req, res) => {
         .then((result) => {
           res.send({ succes: true });
         })
-        .catch((err) => {
-          console.log(err, "something went wrontttttt");
-        });
+        .catch((err) => {});
     })
     .catch((err) => {
       console.log(err);

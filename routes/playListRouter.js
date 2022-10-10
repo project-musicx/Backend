@@ -7,7 +7,6 @@ const refreshToken = require("../spotifyApi/refreshSpotifyToken");
 const router = express.Router();
 const getPlaylistTrack = require("../spotifyApi/getPlaylistTrack");
 router.get("/my-playlist", (req, res) => {
-  console.log(req.session.user.email);
   User.findOne({ email: req.session.user.email }).then(async (user) => {
     if (user) {
       let spotify = user.connectedAccounts.find(
