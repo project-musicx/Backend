@@ -1,17 +1,18 @@
 const express = require("express");
 const User = require("../models/user");
 const MusicSyncSpace = require("../models/musicSyncSpace");
+const Store = require("../caching/store");
 const router = express.Router();
 const redis = require("redis");
 let redisClient;
 
-(async () => {
-  redisClient = redis.createClient();
+// (async () => {
+//   redisClient = redis.createClient();
 
-  redisClient.on("error", (error) => console.error(`Error : ${error}`));
+//   redisClient.on("error", (error) => console.error(`Error : ${error}`));
 
-  await redisClient.connect();
-})();
+//   await redisClient.connect();
+// })();
 
 const spotifyWebApi = require("spotify-web-api-node");
 const { v4: uuidV4 } = require("uuid");
@@ -33,14 +34,14 @@ router.get("/connect-to-musicsyncspace/:id", async (req, res) => {
 
 router.post("/update-my-queue", async (req, res) => {
   const { room, queue } = req.body;
-  let cacheStatus = await redisClient.set(room, JSON.stringify(queue));
+  let cacheStatus = await Store.set(room, JSON.stringify(queue));
   if (cacheStatus) {
     res.send({ succes: true });
   }
 });
 
 router.get("/retrieve-this-room-queue/:id", async (req, res) => {
-  const cacheQueue = await redisClient.get(req.params.id);
+  const cacheQueue = await Store.get(req.params.id);
   if (cacheQueue) {
     res.send(cacheQueue);
   } else {
