@@ -3,9 +3,11 @@ const express = require("express");
 const app = express();
 const expressSession = require("express-session");
 const cors = require("cors");
-const db = process.env.DB;
 const mongoose = require("mongoose");
-mongoose.connect(db, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(process.env.DB, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 const MongoStore = require("connect-mongo");
 const PORT = process.env.PORT || 4000;
 app.use(cors());
