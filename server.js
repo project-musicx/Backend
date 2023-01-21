@@ -7,7 +7,6 @@ const db = process.env.DB;
 const mongoose = require("mongoose");
 mongoose.connect(db, { useNewUrlParser: true, useUnifiedTopology: true });
 const MongoStore = require("connect-mongo");
-const spotifyWebApi = require("spotify-web-api-node");
 const PORT = process.env.PORT || 4000;
 app.use(cors());
 const authRouter = require("./routes/auth");
