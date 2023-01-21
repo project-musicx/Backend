@@ -12,7 +12,4 @@ module.exports = {
       : `${sanitizeRedisUrl(REDIS_HOST)}:${REDIS_PORT}`,
     password: REDIS_PASSWORD || undefined,
   },
-  app: {
-    port: PORT || 6379,
-  },
 };

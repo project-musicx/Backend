@@ -24,7 +24,7 @@ app.use(
     name: process.env.NAME,
     secret: process.env.SECRET,
     store: MongoStore.create({
-      mongoUrl: db,
+      mongoUrl: process.env.DB,
       stringify: false,
       ttl: 14 * 24 * 60 * 60 * 60 * 60 * 60 * 60,
       autoRemove: "native",
