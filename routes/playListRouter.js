@@ -81,8 +81,12 @@ router.get("/refresh-token", async (req, res) => {
 });
 router.post("/add-track-to-spotify-playlist", async (req, res) => {
   let { token, playlistId, trackUri } = req.body;
-  const addTrack = await addTracksToPlaylist(token, playlistId, trackUri);
-  res.send({ succes: true });
+  try {
+    const addTrack = await addTracksToPlaylist(token, playlistId, trackUri);
+    res.send({ succes: true });
+  } catch (err) {
+    res.send({ succes: false });
+  }
 });
 
 router.post("/edit-playlist", (req, res) => {});

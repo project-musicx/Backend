@@ -1,2 +1,2 @@
-let Store= new Set()
-module.exports=Store
+let Store = new Set();
+module.exports = Store;

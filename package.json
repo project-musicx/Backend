@@ -28,7 +28,7 @@
     "jsonwebtoken": "^9.0.0",
     "moment": "^2.29.4",
     "mongoose": "^6.4.4",
-    "nodemon": "^2.0.19",
+    "nodemon": "^2.0.20",
     "passport": "^0.6.0",
     "passport-google-oauth2": "^0.2.0",
     "passport-google-oauth20": "^2.0.0",
